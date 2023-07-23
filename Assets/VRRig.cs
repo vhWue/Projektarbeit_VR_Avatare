@@ -9,7 +9,6 @@ public class VRMap
     public Transform rigTarget;
     public Vector3 trackingPostitionOffet;
     public Vector3 trackingRotationOffet;
-
     public void Map()
     {
         rigTarget.position = vrTarget.TransformPoint(trackingPostitionOffet);
