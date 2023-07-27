@@ -25,7 +25,7 @@ public class VRRig : MonoBehaviour
 
     public Transform headConstraint;
     public Vector3 headBodyOffset;
-
+ 
     public int turnSmoothness = 5;
     void Start()
     {
