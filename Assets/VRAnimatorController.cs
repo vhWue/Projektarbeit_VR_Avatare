@@ -26,14 +26,8 @@ public class VRAnimatorController : MonoBehaviour
         Vector3 headsetLocalSpeed = transform.InverseTransformDirection(headsetSpeed); ;
         previousPos = vrRig.head.vrTarget.position;
 
-        Debug.Log("headsetLocalSpeed.magnitude");
-        Debug.Log(headsetLocalSpeed.magnitude);
-
-        Debug.Log("isMoving");
-        Debug.Log(headsetLocalSpeed.magnitude > speedTreshhold);
-
         animator.SetBool("isMoving", headsetLocalSpeed.magnitude > speedTreshhold);
         animator.SetFloat("DirectionX", Mathf.Clamp(headsetLocalSpeed.x, -1, 1));
-        animator.SetFloat("DirectionY", Mathf.Clamp(headsetLocalSpeed.y, -1, 1));
+        animator.SetFloat("DirectionY", Mathf.Clamp(headsetLocalSpeed.z, -1, 1));
     }
 }
