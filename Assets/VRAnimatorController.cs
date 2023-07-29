@@ -9,6 +9,7 @@ public class VRAnimatorController : MonoBehaviour
     private VRRig vrRig;
 
     public float speedTreshhold = 0.1f;
+    public float smoothing = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,8 +27,11 @@ public class VRAnimatorController : MonoBehaviour
         Vector3 headsetLocalSpeed = transform.InverseTransformDirection(headsetSpeed); ;
         previousPos = vrRig.head.vrTarget.position;
 
-        animator.SetBool("isMoving", headsetLocalSpeed.magnitude > speedTreshhold);
-        animator.SetFloat("DirectionX", Mathf.Clamp(headsetLocalSpeed.x, -1, 1));
-        animator.SetFloat("DirectionY", Mathf.Clamp(headsetLocalSpeed.z, -1, 1));
+        float prevDirX = animator.GetFloat("DirectionX");
+        float prevDirZ = animator.GetFloat("DirectionZ");
+
+        //animator.SetBool("isMoving", headsetLocalSpeed.magnitude >= speedTreshhold);
+        animator.SetFloat("DirectionX", Mathf.Lerp(prevDirX, Mathf.Clamp(headsetLocalSpeed.x, -1, 1), smoothing));
+        animator.SetFloat("DirectionZ", Mathf.Lerp(prevDirZ, Mathf.Clamp(headsetLocalSpeed.z, -1, 1), smoothing));
     }
 }
