@@ -3,14 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Flame
+  - Projectile
+  - Destroyer
+  - MiniWorldCamera
+  - Water
+  - NPC
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Avatar
   - Water
   - UI
+  - DontRender
   - 
   - 
   - 
@@ -32,11 +39,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Pushable
+  - Character Collider
+  - Character Controller
+  - Teleport
   m_SortingLayers:
   - name: Default
     uniqueID: 0
