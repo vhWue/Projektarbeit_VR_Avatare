@@ -17,14 +17,37 @@ ModelImporter:
     removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
+      copied configuration does not match position in animation file:\n\t'LeftUpLeg'
+      : position error = 18.576048 mm\n\t'LeftLeg' : position error = 21.425398 mm\n\t'LeftFoot'
+      : position error = 85.767990 mm\n\t'LeftToeBase' : position error = 3.870861
+      mm\n\t'RightUpLeg' : position error = 18.054031 mm\n\t'RightLeg' : position
+      error = 21.425425 mm\n\t'RightFoot' : position error = 85.767883 mm\n\t'RightToeBase'
+      : position error = 3.795576 mm\n\t'Spine' : position error = 10.804473 mm\n\t'Spine1'
+      : position error = 12.111423 mm\n\t'Spine2' : position error = 20.226149 mm\n\t'Neck'
+      : position error = 8.960539 mm\n\t'Head' : position error = 2.438493 mm\n\t'LeftShoulder'
+      : position error = 22.199106 mm\n\t'LeftArm' : position error = 19.924194 mm\n\t'LeftForeArm'
+      : position error = 3.652937 mm\n\t'LeftHand' : position error = 33.639160 mm\n\t'LeftHandIndex1'
+      : position error = 5.908241 mm\n\t'LeftHandMiddle1' : position error = 4.015581
+      mm\n\t'LeftHandMiddle3' : position error = 1.787275 mm\n\t'LeftHandPinky1'
+      : position error = 10.313054 mm\n\t'LeftHandRing1' : position error = 7.719959
+      mm\n\t'LeftHandThumb1' : position error = 9.457759 mm\n\t'LeftHandThumb2' :
+      position error = 3.938879 mm\n\t'LeftHandThumb3' : position error = 1.472364
+      mm\n\t'RightShoulder' : position error = 22.195576 mm\n\t'RightArm' : position
+      error = 19.924166 mm\n\t'RightForeArm' : position error = 3.653034 mm\n\t'RightHand'
+      : position error = 33.638954 mm\n\t'RightHandIndex1' : position error = 5.908417
+      mm\n\t'RightHandMiddle1' : position error = 4.015659 mm\n\t'RightHandMiddle3'
+      : position error = 1.787548 mm\n\t'RightHandPinky1' : position error = 10.313178
+      mm\n\t'RightHandRing1' : position error = 7.720018 mm\n\t'RightHandThumb1'
+      : position error = 9.458070 mm\n\t'RightHandThumb2' : position error = 3.938879
+      mm\n\t'RightHandThumb3' : position error = 1.472189 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -91,13 +114,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
