@@ -1,44 +1,47 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]  
-public class VRMap
+[System.Serializable]
+public class VRMapping
 {
     public Transform vrTarget;
     public Transform rigTarget;
-    public Vector3 trackingPostitionOffet;
-    public Vector3 trackingRotationOffet;
+    public Vector3 trackingPostionOffset;
+    public Vector3 trackingRotationOffset;
+
     public void Map()
     {
-        rigTarget.position = vrTarget.TransformPoint(trackingPostitionOffet);
-        rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(trackingRotationOffet);
+        rigTarget.position = vrTarget.TransformPoint(trackingPostionOffset);
+        rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(trackingRotationOffset);
     }
 }
+
 public class VRRig : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float turnSmoothness;
+    public VRMapping head;
+    public VRMapping rightHand;
+    public VRMapping leftHand;
 
-    public VRMap head;
-    public VRMap leftHand;
-    public VRMap rightHand;
-
-    public Transform headConstraint;
+    public Transform headConstraints;
     public Vector3 headBodyOffset;
- 
-    public int turnSmoothness = 5;
+    public Transform constraints;
+
+    // Start is called before the first frame update
     void Start()
     {
-        headBodyOffset = transform.position - headConstraint.position;
+        headBodyOffset = transform.position - constraints.position;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        transform.position = headConstraint.position + headBodyOffset;
-        transform.forward = Vector3.Lerp(transform.forward, Vector3.ProjectOnPlane(headConstraint.up, Vector3.up).normalized, Time.deltaTime * turnSmoothness);
+        transform.position = headConstraints.position + headBodyOffset;
+        transform.forward = Vector3.Lerp(transform.forward, Vector3.ProjectOnPlane(constraints.forward, Vector3.up).normalized, Time.deltaTime * turnSmoothness);
+
         head.Map();
-        leftHand.Map();
         rightHand.Map();
+        leftHand.Map();
     }
 }
