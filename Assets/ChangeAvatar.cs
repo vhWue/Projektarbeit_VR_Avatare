@@ -6,9 +6,10 @@ using TMPro;
 public class ChangeAvatar : MonoBehaviour
 {
     public GameObject[] allObjects;
-    public ArrayList menuObjects;
+    public List<GameObject> menuObjects;
     public GameObject nearestObject;
     public GameObject panel;
+    public GameObject globalAvatar;
     public float distance;
     public float nearestDistance = 100;
 
@@ -51,11 +52,13 @@ public class ChangeAvatar : MonoBehaviour
     public void SelectAvatar(int index)
     {
         Debug.Log("SelectAvatar: " + index);
+        menuObjects[index].transform.parent = globalAvatar.transform;
+        menuObjects[index].transform.localScale = new Vector3(1, 1, 1);
     }
     // Start is called before the first frame update
     void Start()
     {
-        menuObjects = new ArrayList();
+        menuObjects = new List<GameObject>();
         OnAddButtonPressed();
     }
 
