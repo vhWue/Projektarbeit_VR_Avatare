@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 [System.Serializable]
 public class VRMap
@@ -35,13 +37,15 @@ public class IKTargetFollowVRRig : MonoBehaviour
     public float distance;
     public float nearestDistance = 100;
 
+    private void Start()
+    {
+        OnAddButtonPressed();
+        SelectAvatar(0);
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
-        if(transform == null || head == null)
-        {
-            return;
-        }
         transform.position = head.ikTarget.position + headBodyPositionOffset;
         float yaw = head.vrTarget.eulerAngles.y;
         transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.Euler(transform.eulerAngles.x, yaw, transform.eulerAngles.z),turnSmoothness);
@@ -70,13 +74,11 @@ public class IKTargetFollowVRRig : MonoBehaviour
     }
     public GameObject GetNearestGameObject()
     {
-        Debug.Log("hey button pressed woo!");
+        Debug.Log("GetNearestGameObject!");
         allObjects = GameObject.FindGameObjectsWithTag("avatar");
-        Debug.Log(allObjects.Length + "length");
         nearestObject = null;
         for (int i = 0; i < allObjects.Length; i++)
         {
-            Debug.Log(allObjects[i].transform.position);
             distance = Vector3.Distance(this.transform.position, allObjects[i].transform.position);
             if (distance < nearestDistance)
             {
@@ -87,22 +89,59 @@ public class IKTargetFollowVRRig : MonoBehaviour
         return nearestObject;
     }
 
-    public void SelectAvatar(int index)
+    private async Task WaitOneSecondAsync()
+    {
+        Debug.Log("wait...");
+        await Task.Delay(TimeSpan.FromSeconds(1));
+        Debug.Log("Finished waiting.");
+    }
+
+    public Transform getTransformInHierarchyByName(GameObject gameObject, string name)
+    {
+        Transform[] AllChildren = gameObject.GetComponentsInChildren<Transform>();
+
+        foreach (var child in AllChildren)
+        {
+            // here is where you decide if you want this (replace it with whatever you like)
+            if (child.gameObject.name == name)
+            {
+                return child;
+            }
+        }
+        return null;
+    }
+
+    public async void SelectAvatar(int index)
     {
         Debug.Log("SelectAvatar: " + index);
-
+        Transform newHeadTarget = getTransformInHierarchyByName(allObjects[index], "Head Target");
+        Debug.Log(newHeadTarget);
+        Transform newLeftHandTarget = getTransformInHierarchyByName(allObjects[index], "Left Arm IK_target");
+        Debug.Log(newLeftHandTarget);
+        Transform newRightHandTarget = getTransformInHierarchyByName(allObjects[index], "Right Arm IK_target");
+        Debug.Log(newRightHandTarget);
+        head.ikTarget = newHeadTarget;
+        leftHand.ikTarget = newLeftHandTarget;
+        rightHand.ikTarget = newRightHandTarget;
+        await WaitOneSecondAsync();
         for (var i = globalAvatar.transform.childCount - 1; i >= 0; i--)
         {
-            Debug.Log("for loop");
-
-            new WaitForSeconds(2);
-            Object.Destroy(globalAvatar.transform.GetChild(i).gameObject);
-
+            Debug.Log("Destroy");
+            await WaitOneSecondAsync();
+            Destroy(globalAvatar.transform.GetChild(i).gameObject);
         }
 
+        Debug.Log("parent");
+        await WaitOneSecondAsync();
         menuObjects[index].transform.parent = globalAvatar.transform;
+        Debug.Log("position");
+        await WaitOneSecondAsync();
         menuObjects[index].transform.position = globalAvatar.transform.position;
+        Debug.Log("rotation");
+        await WaitOneSecondAsync();
         menuObjects[index].transform.rotation = globalAvatar.transform.rotation;
+        Debug.Log("localScale");
+        await WaitOneSecondAsync();
         menuObjects[index].transform.localScale = new Vector3(1, 1, 1);
     }
 }
