@@ -48,7 +48,7 @@ public class IKTargetFollowVRRig : MonoBehaviour
     {
         transform.position = head.ikTarget.position + headBodyPositionOffset;
         float yaw = head.vrTarget.eulerAngles.y;
-        transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.Euler(transform.eulerAngles.x, yaw, transform.eulerAngles.z),turnSmoothness);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, yaw, transform.eulerAngles.z), turnSmoothness);
 
         head.Map();
         leftHand.Map();
@@ -92,7 +92,7 @@ public class IKTargetFollowVRRig : MonoBehaviour
     private async Task WaitOneSecondAsync()
     {
         Debug.Log("wait...");
-        await Task.Delay(TimeSpan.FromSeconds(1));
+        await Task.Delay(TimeSpan.FromSeconds(0.25));
         Debug.Log("Finished waiting.");
     }
 
@@ -111,14 +111,32 @@ public class IKTargetFollowVRRig : MonoBehaviour
         return null;
     }
 
+    public async void moveChild(GameObject child, GameObject target)
+    {
+        Debug.Log("parent");
+        await WaitOneSecondAsync();
+        child.transform.parent = target.transform;
+        Debug.Log("position");
+        await WaitOneSecondAsync();
+        child.transform.position = target.transform.position;
+        Debug.Log("rotation");
+        await WaitOneSecondAsync();
+        child.transform.rotation = target.transform.rotation;
+        Debug.Log("localScale");
+        await WaitOneSecondAsync();
+        child.transform.localScale = new Vector3(1, 1, 1);
+
+    }
+
     public async void SelectAvatar(int index)
     {
+        GameObject selectedObject = menuObjects[index];
         Debug.Log("SelectAvatar: " + index);
-        Transform newHeadTarget = getTransformInHierarchyByName(allObjects[index], "Head Target");
+        Transform newHeadTarget = getTransformInHierarchyByName(selectedObject, "Head Target");
         Debug.Log(newHeadTarget);
-        Transform newLeftHandTarget = getTransformInHierarchyByName(allObjects[index], "Left Arm IK_target");
+        Transform newLeftHandTarget = getTransformInHierarchyByName(selectedObject, "Left Arm IK_target");
         Debug.Log(newLeftHandTarget);
-        Transform newRightHandTarget = getTransformInHierarchyByName(allObjects[index], "Right Arm IK_target");
+        Transform newRightHandTarget = getTransformInHierarchyByName(selectedObject, "Right Arm IK_target");
         Debug.Log(newRightHandTarget);
         head.ikTarget = newHeadTarget;
         leftHand.ikTarget = newLeftHandTarget;
@@ -130,18 +148,12 @@ public class IKTargetFollowVRRig : MonoBehaviour
             await WaitOneSecondAsync();
             Destroy(globalAvatar.transform.GetChild(i).gameObject);
         }
-
-        Debug.Log("parent");
-        await WaitOneSecondAsync();
-        menuObjects[index].transform.parent = globalAvatar.transform;
-        Debug.Log("position");
-        await WaitOneSecondAsync();
-        menuObjects[index].transform.position = globalAvatar.transform.position;
-        Debug.Log("rotation");
-        await WaitOneSecondAsync();
-        menuObjects[index].transform.rotation = globalAvatar.transform.rotation;
-        Debug.Log("localScale");
-        await WaitOneSecondAsync();
-        menuObjects[index].transform.localScale = new Vector3(1, 1, 1);
+        for (var i = selectedObject.transform.childCount - 1; i >= 0; i--)
+        {
+            Debug.Log("move");
+            await WaitOneSecondAsync();
+            moveChild(selectedObject.transform.GetChild(i).gameObject, globalAvatar);
+        }
+        //destroy menuObject?
     }
 }
