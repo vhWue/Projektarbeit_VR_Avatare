@@ -40,7 +40,7 @@ public class IKTargetFollowVRRig : MonoBehaviour
     private void Start()
     {
         OnAddButtonPressed();
-        SelectAvatar(0);
+        /*SelectAvatar(0);*/
     }
 
     // Update is called once per frame
