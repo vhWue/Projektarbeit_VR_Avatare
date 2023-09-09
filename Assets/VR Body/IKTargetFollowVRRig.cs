@@ -39,7 +39,7 @@ public class IKTargetFollowVRRig : MonoBehaviour
 
     private void Start()
     {
-        OnAddButtonPressed();
+       /* OnAddButtonPressed();*/
         /*SelectAvatar(0);*/
     }
 
