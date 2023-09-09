@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using TMPro;
+using UnityEngine.Animations.Rigging;
 
 public class AvatarManager : MonoBehaviour
 {
@@ -10,25 +11,23 @@ public class AvatarManager : MonoBehaviour
     //Change avatar
     public GameObject[] allObjects;
     public List<GameObject> menuObjects;
-    public List<TextMeshPro> textObjects;
+    public List<TextMeshProUGUI> textObjects;
     public GameObject nearestObject;
     public GameObject panel;
     public GameObject globalAvatar;
     public float distance;
     public float nearestDistance = 100;
+    public float avatarIndex = -1f;
     // Start is called before the first frame update
     void Start()
     {
-        AddNearestObjectOnButtonPress();
-
+        avatarIndex = -1f;
         foreach (Transform child in panel.transform)
         {
-            //child is your child transform
-            Debug.Log(child.GetChild(0).name);
-            Debug.Log(child.GetComponentInChildren<TextMeshPro>());
-            Debug.Log(child.GetComponentInChildren<TextMeshPro>().text);
-            textObjects.Add(child.GetComponentInChildren<TextMeshPro>());
+            textObjects.Add(child.GetComponentInChildren<TextMeshProUGUI>());
         }
+        AddNearestObjectOnButtonPress();
+
     }
 
     // Update is called once per frame
@@ -45,9 +44,23 @@ public class AvatarManager : MonoBehaviour
 
         if (current != null)
         {
+            if (avatarIndex != -1)
+            {
+                menuObjects[(int)avatarIndex].SetActive(false);
+            }
             menuObjects.Add(current);
+            avatarIndex = menuObjects.Count;
+            enableAvatarComponents(current);
         }
 
+    }
+
+    public void enableAvatarComponents(GameObject avatar)
+    {
+        Debug.Log("enableAvatarComponents!");
+        Debug.Log(avatar.name);
+        avatar.GetComponent<RigBuilder>().enabled = true;
+        avatar.GetComponent<IKTargetFollowVRRig>().enabled = true;
     }
     public GameObject GetNearestGameObject()
     {
