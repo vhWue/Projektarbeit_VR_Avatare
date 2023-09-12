@@ -17,7 +17,7 @@ public class AvatarManager : MonoBehaviour
     public GameObject globalAvatar;
     public float distance;
     public float nearestDistance = 100;
-    private int avatarIndex = -1;
+    public int avatarIndex = -1;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +25,11 @@ public class AvatarManager : MonoBehaviour
         //get all the Button Text Components
         foreach (Transform child in panel.transform)
         {
-            textObjects.Add(child.GetComponentInChildren<TextMeshProUGUI>());
+            TextMeshProUGUI text = child.GetComponentInChildren<TextMeshProUGUI>();
+            if(text.text == "")
+            {
+                textObjects.Add(text);
+            }
         }
         AddNearestObjectOnButtonPress();
 
@@ -41,19 +45,32 @@ public class AvatarManager : MonoBehaviour
     {
         Debug.Log("AddNearestObjectOnButtonPress!");
 
+        if(menuObjects.Count == textObjects.Count)
+        {
+            return;
+        }
+
         GameObject current = GetNearestGameObject();
 
         if (current != null)
         {
+            textObjects[menuObjects.Count].text = current.name;
             if (avatarIndex != -1)
             {
                 menuObjects[avatarIndex].SetActive(false);
             }
+            GameObject duplicate = Instantiate(current);
+            duplicate.name = current.name;
             menuObjects.Add(current);
             avatarIndex = menuObjects.Count - 1;
             enableAvatarComponents(current);
         }
 
+    }
+
+    private void enableCurrentAvatar()
+    {
+        menuObjects[avatarIndex].SetActive(true);
     }
 
     public void enableAvatarComponents(GameObject avatar)
@@ -82,6 +99,22 @@ public class AvatarManager : MonoBehaviour
         return nearestObject;
     }
 
+    [ContextMenu("remove")]
+    public void RemoveLastAvatar()
+    {
+        if(menuObjects.Count >= 0)
+        {
+            Destroy(menuObjects[menuObjects.Count -1]);
+            menuObjects.RemoveAt(menuObjects.Count - 1);
+            if (avatarIndex >= menuObjects.Count)
+            {
+                avatarIndex = menuObjects.Count - 1;
+            }
+            textObjects[menuObjects.Count].text = "";
+            enableCurrentAvatar();
+        }
+    }
+
     private async Task WaitOneSecondAsync()
     {
         Debug.Log("wait...");
@@ -91,6 +124,12 @@ public class AvatarManager : MonoBehaviour
 
     public async void SelectAvatar(int index)
     {
-
+        if (menuObjects.Count <= 0 || index == avatarIndex)
+        {
+            return;
+        }
+        menuObjects[avatarIndex].SetActive(false);
+        menuObjects[index].SetActive(true);
+        avatarIndex = index;
     }
 }
