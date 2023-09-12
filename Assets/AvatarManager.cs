@@ -64,7 +64,6 @@ public class AvatarManager : MonoBehaviour
         float currentNearestDistance = nearestDistance;
         for (int i = 0; i < allObjects.Length; i++)
         {
-            Debug.Log(allObjects[i].name);
             distance = Vector3.Distance(this.transform.position, allObjects[i].transform.position);
             if (distance < currentNearestDistance && !menuObjects.Contains(allObjects[i]))
             {
