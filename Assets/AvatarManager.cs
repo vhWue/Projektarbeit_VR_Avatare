@@ -29,14 +29,8 @@ public class AvatarManager : MonoBehaviour
             }
         }
         AddNearestObjectOnButtonPress();
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     [ContextMenu("Test Function")]
     public void AddNearestObjectOnButtonPress()
     {
@@ -45,32 +39,22 @@ public class AvatarManager : MonoBehaviour
             return;
         }
 
-        GameObject current = GetNearestGameObject();
+        GameObject newAvatar = GetNearestGameObject();
 
-        if (current != null)
+        if (newAvatar != null)
         {
-            textObjects[menuObjects.Count].text = current.name;
+            textObjects[menuObjects.Count].text = newAvatar.name;
             if (avatarIndex != -1)
             {
                 menuObjects[avatarIndex].SetActive(false);
             }
-            GameObject duplicate = Instantiate(current);
-            duplicate.name = current.name;
-            menuObjects.Add(current);
+            GameObject duplicate = Instantiate(newAvatar);
+            duplicate.name = newAvatar.name;
+            menuObjects.Add(newAvatar);
             avatarIndex = menuObjects.Count - 1;
-            enableAvatarComponents(current);
+            newAvatar.GetComponent<RigBuilder>().enabled = true;
+            newAvatar.GetComponent<IKTargetFollowVRRig>().enabled = true;
         }
-    }
-
-    private void enableCurrentAvatar()
-    {
-        menuObjects[avatarIndex].SetActive(true);
-    }
-
-    public void enableAvatarComponents(GameObject avatar)
-    {
-        avatar.GetComponent<RigBuilder>().enabled = true;
-        avatar.GetComponent<IKTargetFollowVRRig>().enabled = true;
     }
     public GameObject GetNearestGameObject()
     {
@@ -105,7 +89,7 @@ public class AvatarManager : MonoBehaviour
             textObjects[menuObjects.Count].text = "";
             if(avatarIndex != -1)
             {
-                enableCurrentAvatar();
+                menuObjects[avatarIndex].SetActive(true);
             }
         }
     }
@@ -117,7 +101,7 @@ public class AvatarManager : MonoBehaviour
         Debug.Log("Finished waiting.");
     }
 
-    public async void SelectAvatar(int index)
+    public void SelectAvatar(int index)
     {
         if (menuObjects.Count <= 0 || index == avatarIndex || menuObjects.Count <= index)
         {
