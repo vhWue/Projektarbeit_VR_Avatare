@@ -12,12 +12,9 @@ public class AvatarManager : MonoBehaviour
     public GameObject[] allObjects;
     public List<GameObject> menuObjects;
     public List<TextMeshProUGUI> textObjects;
-    public GameObject nearestObject;
     public GameObject panel;
-    public GameObject globalAvatar;
-    public float distance;
     public float nearestDistance = 100;
-    public int avatarIndex = -1;
+    private int avatarIndex;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +40,6 @@ public class AvatarManager : MonoBehaviour
     [ContextMenu("Test Function")]
     public void AddNearestObjectOnButtonPress()
     {
-        Debug.Log("AddNearestObjectOnButtonPress!");
-
         if(menuObjects.Count == textObjects.Count)
         {
             return;
@@ -65,7 +60,6 @@ public class AvatarManager : MonoBehaviour
             avatarIndex = menuObjects.Count - 1;
             enableAvatarComponents(current);
         }
-
     }
 
     private void enableCurrentAvatar()
@@ -75,16 +69,14 @@ public class AvatarManager : MonoBehaviour
 
     public void enableAvatarComponents(GameObject avatar)
     {
-        Debug.Log("enableAvatarComponents!");
-        Debug.Log(avatar.name);
         avatar.GetComponent<RigBuilder>().enabled = true;
         avatar.GetComponent<IKTargetFollowVRRig>().enabled = true;
     }
     public GameObject GetNearestGameObject()
     {
-        Debug.Log("GetNearestGameObject!");
+        float distance;
         allObjects = GameObject.FindGameObjectsWithTag("avatar");
-        nearestObject = null;
+        GameObject nearestObject = null;
         float currentNearestDistance = nearestDistance;
         for (int i = 0; i < allObjects.Length; i++)
         {
@@ -102,7 +94,7 @@ public class AvatarManager : MonoBehaviour
     [ContextMenu("remove")]
     public void RemoveLastAvatar()
     {
-        if(menuObjects.Count >= 0)
+        if(menuObjects.Count > 0)
         {
             Destroy(menuObjects[menuObjects.Count -1]);
             menuObjects.RemoveAt(menuObjects.Count - 1);
@@ -111,7 +103,10 @@ public class AvatarManager : MonoBehaviour
                 avatarIndex = menuObjects.Count - 1;
             }
             textObjects[menuObjects.Count].text = "";
-            enableCurrentAvatar();
+            if(avatarIndex != -1)
+            {
+                enableCurrentAvatar();
+            }
         }
     }
 
@@ -124,7 +119,7 @@ public class AvatarManager : MonoBehaviour
 
     public async void SelectAvatar(int index)
     {
-        if (menuObjects.Count <= 0 || index == avatarIndex)
+        if (menuObjects.Count <= 0 || index == avatarIndex || menuObjects.Count <= index)
         {
             return;
         }
