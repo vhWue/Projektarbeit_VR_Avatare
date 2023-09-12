@@ -17,11 +17,12 @@ public class AvatarManager : MonoBehaviour
     public GameObject globalAvatar;
     public float distance;
     public float nearestDistance = 100;
-    public float avatarIndex = -1f;
+    private int avatarIndex = -1;
     // Start is called before the first frame update
     void Start()
     {
-        avatarIndex = -1f;
+        avatarIndex = -1;
+        //get all the Button Text Components
         foreach (Transform child in panel.transform)
         {
             textObjects.Add(child.GetComponentInChildren<TextMeshProUGUI>());
@@ -35,7 +36,7 @@ public class AvatarManager : MonoBehaviour
     {
         
     }
-
+    [ContextMenu("Test Function")]
     public void AddNearestObjectOnButtonPress()
     {
         Debug.Log("AddNearestObjectOnButtonPress!");
@@ -46,10 +47,10 @@ public class AvatarManager : MonoBehaviour
         {
             if (avatarIndex != -1)
             {
-                menuObjects[(int)avatarIndex].SetActive(false);
+                menuObjects[avatarIndex].SetActive(false);
             }
             menuObjects.Add(current);
-            avatarIndex = menuObjects.Count;
+            avatarIndex = menuObjects.Count - 1;
             enableAvatarComponents(current);
         }
 
@@ -72,7 +73,7 @@ public class AvatarManager : MonoBehaviour
         {
             Debug.Log(allObjects[i].name);
             distance = Vector3.Distance(this.transform.position, allObjects[i].transform.position);
-            if (distance < currentNearestDistance)
+            if (distance < currentNearestDistance && !menuObjects.Contains(allObjects[i]))
             {
                 nearestObject = allObjects[i];
                 currentNearestDistance = distance;
