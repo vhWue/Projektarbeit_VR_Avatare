@@ -7,8 +7,8 @@ public class AvatarSwitchSecond : MonoBehaviour
 {
     public GameObject[] avatars;
     private int avatarIndex = 0;
-    public GameObject[] stuff;
-    private Boolean active = true;
+    public GameObject[] listOfInputObjects;
+    private Boolean active = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +35,7 @@ public class AvatarSwitchSecond : MonoBehaviour
             
             if (active)
             {
-                foreach(GameObject obj in stuff)
+                foreach(GameObject obj in listOfInputObjects)
                 {
 
                     obj.SetActive(false);
@@ -46,7 +46,7 @@ public class AvatarSwitchSecond : MonoBehaviour
             }
             else
             {
-                foreach(GameObject obj in stuff) {
+                foreach(GameObject obj in listOfInputObjects) {
                     obj.SetActive(true);
                 }
                 active = true;
