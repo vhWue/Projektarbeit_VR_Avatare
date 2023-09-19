@@ -15,7 +15,7 @@ public class AvatarSwitchSecond : MonoBehaviour
         for (int i = 0; i < avatars.Length; i++)
         {
 
-            avatars[i].SetActive(false);
+           // avatars[i].SetActive(false);
         }
        // avatars[0].SetActive(true);
     }
@@ -23,15 +23,16 @@ public class AvatarSwitchSecond : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            avatars[avatarIndex].SetActive(false);
-            avatarIndex = (avatarIndex + 1) % avatars.Length;
-            avatars[avatarIndex].SetActive(true);
+        /* if (Input.GetKeyDown(KeyCode.Tab))
+         {
+             avatars[avatarIndex].SetActive(false);
+             avatarIndex = (avatarIndex + 1) % avatars.Length;
+             avatars[avatarIndex].SetActive(true);
 
-        }
-        if (Input.GetKeyDown(KeyCode.R))
+         } */
+        if (Input.GetKeyDown(KeyCode.R) || (Input.GetKeyDown(KeyCode.Joystick1Button1)))
         {
+            
             if (active)
             {
                 foreach(GameObject obj in stuff)
