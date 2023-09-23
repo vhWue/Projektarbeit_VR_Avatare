@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class VRAnimationController : MonoBehaviour
         animatior = GetComponent<Animator>();
         vrRig = GetComponent<VRRig>();
         previousPos = vrRig.head.vrTarget.position;
+        Debug.Log("Animator initialized");
     }
 
     // Update is called once per frame
