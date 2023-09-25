@@ -54,6 +54,18 @@ public class AvatarManager : MonoBehaviour
             avatarIndex = menuObjects.Count - 1;
             newAvatar.GetComponent<RigBuilder>().enabled = true;
             newAvatar.GetComponent<IKTargetFollowVRRig>().enabled = true;
+
+            VRAnimatorAlex animator = newAvatar.GetComponent<VRAnimatorAlex>();
+            if (animator)
+            {
+                Debug.Log("animator exists");
+                animator.enabled = true;
+            }
+            else
+            {
+
+                Debug.Log("animator doesnt exists");
+            }
         }
     }
     public GameObject GetNearestGameObject()
