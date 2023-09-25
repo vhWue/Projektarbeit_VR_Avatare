@@ -58,12 +58,10 @@ public class AvatarManager : MonoBehaviour
             VRAnimatorAlex animator = newAvatar.GetComponent<VRAnimatorAlex>();
             if (animator)
             {
-                Debug.Log("animator exists");
                 animator.enabled = true;
             }
             else
             {
-
                 Debug.Log("animator doesnt exists");
             }
         }
