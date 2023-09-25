@@ -18,7 +18,7 @@ public class VRAnimatorAlex : MonoBehaviour
         animatior = GetComponent<Animator>();
         vrRig = GetComponent<IKTargetFollowVRRig>();
         previousPos = vrRig.head.vrTarget.position;
-        Debug.Log("Animator initialized");
+        /*Debug.Log("Animator initialized");*/
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class VRAnimatorAlex : MonoBehaviour
 
         animatior.SetBool("IsMoving", headsetLocalSpeed.magnitude > speedTreshold);
         animatior.SetFloat("DirectionX", Mathf.Lerp(previousDirectionX, Mathf.Clamp(headsetLocalSpeed.x, -1, 1), smoothing));
-        Debug.Log(animatior.GetFloat("DirectionX"));
+        /*Debug.Log(animatior.GetFloat("DirectionX"));*//**/
         animatior.SetFloat("DirectionY", Mathf.Lerp(previousDirectionY, Mathf.Clamp(headsetLocalSpeed.z, -1, 1), smoothing));
     }
 }

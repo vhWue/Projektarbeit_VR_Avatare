@@ -31,7 +31,7 @@ public class AvatarManager : MonoBehaviour
         AddNearestObjectOnButtonPress();
     }
 
-    [ContextMenu("Test Function")]
+    [ContextMenu("Add Avatar")]
     public void AddNearestObjectOnButtonPress()
     {
         if(menuObjects.Count == textObjects.Count)
